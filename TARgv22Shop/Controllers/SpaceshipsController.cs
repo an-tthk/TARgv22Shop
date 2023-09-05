@@ -8,5 +8,11 @@ namespace TARgv22Shop.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
