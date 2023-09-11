@@ -11,8 +11,8 @@ namespace Shop.Core.Domain
         public int Passengers { get; set; }
         public int EnginePower { get; set; }
         public int Crew { get; set; }
-        public string FuelType { get; set; }
-        public int FuelCapacity { get; set; }
+        //public string FuelType { get; set; }
+        //public int FuelCapacity { get; set; }
         public string Company { get; set; }
         public int CargoWeight { get; set; }
 
