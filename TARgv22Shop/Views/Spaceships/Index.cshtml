@@ -1,33 +1,37 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-
-}
+﻿@model IEnumerable<TARgv22Shop.Models.Spaceship.SpaceshipIndexViewModel>
 
 <div class="h1">
     Spaceships
 </div>
 
+@{
+    int rowNumber = 1;
+}
+
 <form method="post">
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Nr</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Passangers</th>
-                <th>Engine Power</th>
+                <th scope="col">Nr</th>
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Passangers</th>
+                <th scope="col">Engine Power</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            @{
+                foreach (var spaceship in Model)
+                {
+                    <tr>
+                        <td>@(rowNumber++)</td>
+                        <td>@spaceship.Name</td>
+                        <td>@spaceship.Type</td>
+                        <td>@spaceship.Passengers</td>
+                        <td>@spaceship.EnginePower</td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 
