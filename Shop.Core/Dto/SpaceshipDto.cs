@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Shop.Core.Domain
+namespace Shop.Core.Dto
 {
-    public class Spaceship
+    public class SpaceshipDto
     {
-        [Key]
         public Guid? Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
@@ -14,7 +17,7 @@ namespace Shop.Core.Domain
         public string Company { get; set; }
         public int CargoWeight { get; set; }
 
-        // only in database
+        //only in database
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
     }
