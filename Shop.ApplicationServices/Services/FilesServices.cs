@@ -33,6 +33,11 @@ namespace Shop.ApplicationServices.Services
                     string uploadsFolder = Path.Combine(_webHost.ContentRootPath, "multipleFileUpload");
                     string uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        image.CopyTo(fileStream);
+                    }
                 }
             }
 
