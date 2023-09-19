@@ -58,5 +58,16 @@ namespace TARgv22Shop.Controllers
 
             return RedirectToAction(nameof(Index), vm);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var spaceship = await _spaceshipServices.GetAsync(id);
+
+            if (spaceship == null)
+            {
+                return NotFound();
+            }
+        }
     }
 }
