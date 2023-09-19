@@ -1,6 +1,6 @@
 ﻿namespace TARgv22Shop.Models.Spaceship
 {
-    public class SpaceshipsCreateViewModel
+    public class SpaceshipCreateUpdateViewModel
     {
         public Guid? Id { get; set; }
         public string Name { get; set; }
