@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace TARgv22Shop.Models.Spaceship
+﻿namespace TARgv22Shop.Models.Spaceship
 {
     public class SpaceshipDetailsViewModel
     {
