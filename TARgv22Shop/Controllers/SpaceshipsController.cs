@@ -54,10 +54,23 @@ namespace TARgv22Shop.Controllers
                 EnginePower = vm.EnginePower,
                 Crew = vm.Crew,
                 Company = vm.Company,
-                CargoWeight = vm.CargoWeight
+                CargoWeight = vm.CargoWeight,
+                Files = vm.Files,
+                Image = vm.FileToApiViewModels
+                    .Select(x => new FileToApiDto
+                    {
+                        Id = x.Id,
+                        ExistingFilePath = x.FilePath,
+                        SpaceshipId = x.SpaceshipId
+                    }).ToArray()
             };
 
             var result = await _spaceshipServices.Create(dto);
+
+            if (result == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
             return RedirectToAction(nameof(Index), vm);
         }
