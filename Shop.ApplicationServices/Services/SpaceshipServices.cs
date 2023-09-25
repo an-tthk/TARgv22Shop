@@ -9,10 +9,12 @@ namespace Shop.ApplicationServices.Services
     public class SpaceshipServices : ISpaceshipServices
     {
         private readonly ShopContext _context;
+        private readonly IFileServices _fileServices;
 
-        public SpaceshipServices(ShopContext context)
+        public SpaceshipServices(ShopContext context, IFileServices fileServices)
         {
             _context = context;
+            _fileServices = fileServices;
         }
 
         public async Task<Spaceship> Create(SpaceshipDto dto)
@@ -29,6 +31,7 @@ namespace Shop.ApplicationServices.Services
             spaceship.CargoWeight = dto.CargoWeight;
             spaceship.CreatedAt = DateTime.Now;
             spaceship.ModifiedAt = DateTime.Now;
+            _fileServices.FilesToApi(dto, spaceship);
 
             await _context.Spaceships.AddAsync(spaceship);
             await _context.SaveChangesAsync();

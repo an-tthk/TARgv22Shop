@@ -12,6 +12,7 @@ builder.Services.AddDbContext<ShopContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("LocalConnection")));
 
 builder.Services.AddScoped<ISpaceshipServices, SpaceshipServices>();
+builder.Services.AddScoped<IFileServices, FilesServices>();
 
 var app = builder.Build();
 
