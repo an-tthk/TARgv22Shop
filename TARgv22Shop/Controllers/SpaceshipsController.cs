@@ -13,11 +13,13 @@ namespace TARgv22Shop.Controllers
     {
         private readonly ShopContext _context;
         private readonly ISpaceshipServices _spaceshipServices;
+        private readonly IFileServices _fileServices;
 
-        public SpaceshipsController(ShopContext context, ISpaceshipServices spaceshipServices)
+        public SpaceshipsController(ShopContext context, ISpaceshipServices spaceshipServices, IFileServices fileServices)
         {
             this._context = context;
             this._spaceshipServices = spaceshipServices;
+            this._fileServices = fileServices;
         }
 
         public IActionResult Index()
@@ -60,7 +62,7 @@ namespace TARgv22Shop.Controllers
                 Image = vm.FileToApiViewModels
                     .Select(x => new FileToApiDto
                     {
-                        Id = x.Id,
+                        Id = x.ImageId,
                         ExistingFilePath = x.FilePath,
                         SpaceshipId = x.SpaceshipId
                     }).ToArray()
@@ -91,7 +93,7 @@ namespace TARgv22Shop.Controllers
                 .Select(y => new FileToApiViewModel
                 {
                     FilePath = y.ExistingFilePath,
-                    Id = y.Id
+                    ImageId = y.Id
                 }).ToArrayAsync();
 
             var vm = new SpaceshipDetailsViewModel();
@@ -126,7 +128,7 @@ namespace TARgv22Shop.Controllers
                 .Select(y => new FileToApiViewModel
                 {
                     FilePath = y.ExistingFilePath,
-                    Id = y.Id
+                    ImageId = y.Id
                 }).ToArrayAsync();
 
             var vm = new SpaceshipCreateUpdateViewModel();
@@ -188,7 +190,7 @@ namespace TARgv22Shop.Controllers
                 .Select(y => new FileToApiViewModel
                 {
                     FilePath = y.ExistingFilePath,
-                    Id = y.Id
+                    ImageId = y.Id
                 }).ToArrayAsync();
 
             var vm = new SpaceshipDeleteViewModel();
@@ -214,6 +216,24 @@ namespace TARgv22Shop.Controllers
             var spaceshipId = await _spaceshipServices.Delete(id);
 
             if (spaceshipId == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveImage(FileToApiViewModel vm)
+        {
+            var dto = new FileToApiDto()
+            {
+                Id = vm.ImageId
+            };
+
+            var image = await _fileServices.RemoveImageFromApi(dto);
+
+            if (image == null)
             {
                 return RedirectToAction(nameof(Index));
             }

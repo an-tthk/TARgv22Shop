@@ -76,6 +76,7 @@ else
         @foreach (var images in Model.FileToApiViewModels)
         {
             <partial name="_Images" model="images" />
+            <input asp-action="RemoveImage" asp-controller="spaceships" asp-route-imageId="@images.ImageId" type="submit" class="btn btn-danger" value="Delete Image" />
         }
 
         <hr/>
