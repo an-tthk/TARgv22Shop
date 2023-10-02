@@ -30,7 +30,7 @@
             @{
                 foreach (var realEstate in Model)
                 {
-                    var year = realEstate.BuiltInYear.ToLongTimeString();
+                    var year = realEstate.BuiltInYear.ToShortDateString();
 
                     <tr>
                         <td>@(rowNumber++)</td>
