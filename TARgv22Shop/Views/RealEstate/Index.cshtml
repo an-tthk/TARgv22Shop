@@ -30,6 +30,8 @@
             @{
                 foreach (var realEstate in Model)
                 {
+                    var year = realEstate.BuiltInYear.ToLongTimeString();
+
                     <tr>
                         <td>@(rowNumber++)</td>
                         <td>@realEstate.Address</td>
@@ -37,7 +39,7 @@
                         <td>@realEstate.RoomCount</td>
                         <td>@realEstate.Floor</td>
                         <td>@realEstate.BuildingType</td>
-                        <td>@realEstate.BuiltInYear</td>
+                        <td>@year</td>
                         <td>
                             <a asp-action="details" asp-controller="realestate" asp-route-id="@realEstate.Id" class="btn btn-info">Details</a>
                             <a asp-action="update" asp-controller="realestate" asp-route-id="@realEstate.Id" class="btn btn-outline-primary">Update</a>
