@@ -23,6 +23,20 @@ namespace Shop.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FileToDatabases",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ImageTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageData = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    RealEstateId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileToDatabases", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RealEstates",
                 columns: table => new
                 {
@@ -66,6 +80,9 @@ namespace Shop.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "FileToApis");
+
+            migrationBuilder.DropTable(
+                name: "FileToDatabases");
 
             migrationBuilder.DropTable(
                 name: "RealEstates");

@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shop.Core.Domain;
 
 namespace Shop.Core.Dto
 {
@@ -16,6 +12,9 @@ namespace Shop.Core.Dto
         public int Floor { get; set; }
         public string BuildingType { get; set; }
         public DateTime BuiltInYear { get; set; }
+
+        public List<IFormFile> Files { get; set; }
+        public IEnumerable<FileToDatabaseDto> Image { get; set; } = new List<FileToDatabaseDto>();
 
         //only in database
         public DateTime CreatedAt { get; set; }
