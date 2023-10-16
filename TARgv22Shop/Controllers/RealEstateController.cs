@@ -13,11 +13,13 @@ namespace TARgv22Shop.Controllers
     {
         private readonly ShopContext _context;
         private readonly IRealEstateServices _realEstateServices;
+        private readonly IFileServices _fileServices;
 
-        public RealEstateController(ShopContext context, IRealEstateServices realEstateServices)
+        public RealEstateController(ShopContext context, IRealEstateServices realEstateServices, IFileServices fileServices)
         {
             this._context = context;
             this._realEstateServices = realEstateServices;
+            this._fileServices = fileServices;
         }
 
         public IActionResult Index()
@@ -126,6 +128,17 @@ namespace TARgv22Shop.Controllers
                 return NotFound();
             }
 
+            var photos = await _context.FileToDatabases
+                .Where(x => x.RealEstateId == id)
+                .Select(y => new ImageToDatabaseViewModel
+                {
+                    RealEstateId = y.Id,
+                    ImageId = y.Id,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64, {0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+
             var vm = new RealEstateCreateUpdateViewModel();
 
             vm.Id = realEstate.Id;
@@ -137,6 +150,7 @@ namespace TARgv22Shop.Controllers
             vm.BuiltInYear = realEstate.BuiltInYear;
             vm.CreatedAt = realEstate.CreatedAt;
             vm.UpdatedAt = realEstate.UpdatedAt;
+            vm.Image.AddRange(photos);
 
             return View("CreateUpdate", vm);
         }
@@ -155,6 +169,14 @@ namespace TARgv22Shop.Controllers
                 BuiltInYear = vm.BuiltInYear,
                 CreatedAt = vm.CreatedAt,
                 UpdatedAt = vm.UpdatedAt,
+                Files = vm.Files,
+                Image = vm.Image.Select(x => new FileToDatabaseDto
+                {
+                    Id = x.ImageId,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
+                    RealEstateId = x.RealEstateId,
+                }).ToArray()
             };
 
             var result = await _realEstateServices.Update(dto);
@@ -177,6 +199,17 @@ namespace TARgv22Shop.Controllers
                 return NotFound();
             }
 
+            var photos = await _context.FileToDatabases
+                .Where(x => x.RealEstateId == id)
+                .Select(y => new ImageToDatabaseViewModel
+                {
+                    RealEstateId = y.Id,
+                    ImageId = y.Id,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+
             var vm = new RealEstateDeleteViewModel();
 
             vm.Id = realEstate.Id;
@@ -188,6 +221,7 @@ namespace TARgv22Shop.Controllers
             vm.BuiltInYear = realEstate.BuiltInYear;
             vm.CreatedAt = realEstate.CreatedAt;
             vm.UpdatedAt = realEstate.UpdatedAt;
+            vm.ImageToDatabase.AddRange(photos);
 
             return View(vm);
         }
@@ -202,6 +236,43 @@ namespace TARgv22Shop.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveImage(ImageToDatabaseViewModel file)
+        {
+            var dto = new FileToDatabaseDto()
+            {
+                Id = file.ImageId
+            };
+
+            var image = await _fileServices.RemoveImageFromDatabase(dto);
+
+            if (image == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // teha meetod, mis kustutab mitu pilti korraga ära
+        // создать метод, который удаляет несколько изображений одновременно
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveImages(ImageToDatabaseViewModel[] files)
+        {
+            foreach (var file in files)
+            {
+                var dto = new FileToDatabaseDto()
+                {
+                    Id = file.ImageId
+                };
+
+                var image = await _fileServices.RemoveImageFromDatabase(dto);
+            }
+            
             return RedirectToAction(nameof(Index));
         }
     }

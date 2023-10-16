@@ -14,5 +14,6 @@ namespace Shop.Core.ServiceInterface
         Task<List<FileToApi>> RemoveImagesFromApi(FileToApiDto[] dtos);
         Task<FileToApi> RemoveImageFromApi(FileToApiDto dto);
         void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain);
+        Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto);
     }
 }
