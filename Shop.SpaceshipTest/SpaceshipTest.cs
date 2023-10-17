@@ -24,5 +24,18 @@ namespace Shop.SpaceshipTest
 
             Assert.NotNull(result);
         }
+
+        [Fact]
+        public async Task ShouldNot_GetByIdSpaceship_WhenReturnsNotEqual()
+        {
+            Guid guid = Guid.Parse("0946d4c2-f3d6-47c7-9322-acf061949331");
+            
+            // kuidas teha automaatselt guidi??
+            Guid wrongGuid = Guid.Parse(Guid.NewGuid().ToString());
+
+            var result = await Svc<ISpaceshipServices>().GetAsync(guid);
+
+            Assert.NotNull(result);
+        }
     }
 }
