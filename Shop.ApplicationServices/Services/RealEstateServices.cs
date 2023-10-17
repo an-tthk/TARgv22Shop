@@ -73,7 +73,13 @@ namespace Shop.ApplicationServices.Services
             var realEstateId = await _context.RealEstates
                 .FirstOrDefaultAsync(x => x.Id == id);
 
+            var photos = await _context.FileToDatabases
+                .Where(x => x.RealEstateId == id)
+                .ToArrayAsync();
+
+            _context.FileToDatabases.RemoveRange(photos);
             _context.RealEstates.Remove(realEstateId);
+            
             await _context.SaveChangesAsync();
 
             return realEstateId;
