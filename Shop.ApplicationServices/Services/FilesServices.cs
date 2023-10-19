@@ -124,5 +124,17 @@ namespace Shop.ApplicationServices.Services
 
             return image;
         }
+
+        public async Task<FileToDatabase> RemoveImagesFromDatabase(Guid id)
+        {
+            var photos = await _context.FileToDatabases
+                .Where(x => x.RealEstateId == id)
+                .ToArrayAsync();
+
+            _context.FileToDatabases.RemoveRange(photos);
+            await _context.SaveChangesAsync();
+
+            return null;
+        }
     }
 }
