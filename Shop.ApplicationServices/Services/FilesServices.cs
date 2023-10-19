@@ -127,11 +127,11 @@ namespace Shop.ApplicationServices.Services
 
         public async Task<FileToDatabase> RemoveImagesFromDatabase(Guid id)
         {
-            var photos = await _context.FileToDatabases
+            var images = await _context.FileToDatabases
                 .Where(x => x.RealEstateId == id)
                 .ToArrayAsync();
 
-            _context.FileToDatabases.RemoveRange(photos);
+            _context.FileToDatabases.RemoveRange(images);
             await _context.SaveChangesAsync();
 
             return null;
