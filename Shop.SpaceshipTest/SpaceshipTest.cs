@@ -1,5 +1,6 @@
 ﻿using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
+using System;
 
 namespace Shop.SpaceshipTest
 {
@@ -28,14 +29,58 @@ namespace Shop.SpaceshipTest
         [Fact]
         public async Task ShouldNot_GetByIdSpaceship_WhenReturnsNotEqual()
         {
+            //Arrange
             Guid guid = Guid.Parse("0946d4c2-f3d6-47c7-9322-acf061949331");
-            
             // kuidas teha automaatselt guidi??
             Guid wrongGuid = Guid.Parse(Guid.NewGuid().ToString());
 
-            var result = await Svc<ISpaceshipServices>().GetAsync(guid);
+            //Act
+            await Svc<ISpaceshipServices>().GetAsync(guid);
 
+            //Assert
+            Assert.Equal(guid, wrongGuid);
+        }
+
+        [Fact]
+        public async Task Should_GetByIdSpaceship_WhenReturnsEqual()
+        {
+            //Arrange
+            Guid databaseGuid = Guid.Parse("0946d4c2-f3d6-47c7-9322-acf061949331");
+            Guid getGuid = Guid.Parse("0946d4c2-f3d6-47c7-9322-acf061949331");
+
+            //Act
+            await Svc<ISpaceshipServices>().GetAsync(getGuid);
+
+            //Assert
+            Assert.Equal(databaseGuid, getGuid);
+        }
+
+        [Fact]
+        public async Task Should_DeleteByIdSpaceship_WhenDeleteSpaceship()
+        {
+            //Arrange
+            SpaceshipDto spaceship = MockSpaceshipData();
+
+            //Act
+            var result = await Svc<ISpaceshipServices>().Delete(spaceship.Id.GetValueOrDefault());
+
+            //Assert
             Assert.NotNull(result);
+        }
+
+        private SpaceshipDto MockSpaceshipData()
+        {
+            return new SpaceshipDto()
+            {
+                //Id = Guid.NewGuid(),
+                Name = "Name",
+                Type = "Type",
+                Passengers = 123,
+                EnginePower = 123,
+                Crew = 123,
+                Company = "Company",
+                CargoWeight = 123
+            };
         }
     }
 }
