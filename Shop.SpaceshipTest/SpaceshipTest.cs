@@ -62,10 +62,11 @@ namespace Shop.SpaceshipTest
             SpaceshipDto spaceship = MockSpaceshipData();
 
             //Act
+            var addSpaceship = await Svc<ISpaceshipServices>().Create(spaceship);
             var result = await Svc<ISpaceshipServices>().Delete(spaceship.Id.GetValueOrDefault());
 
             //Assert
-            Assert.NotNull(result);
+            Assert.Equal(result, addSpaceship);
         }
 
         private SpaceshipDto MockSpaceshipData()
