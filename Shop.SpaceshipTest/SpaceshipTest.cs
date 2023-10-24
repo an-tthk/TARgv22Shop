@@ -86,10 +86,12 @@ namespace Shop.SpaceshipTest
         [Fact]
         public async Task Should_UpdateSpaceship_WhenUpdateData()
         {
-            Guid guid = Guid.Parse("0946d4c2-f3d6-47c7-9322-acf061949331");
-
+            var guid = new Guid("0946d4c2-f3d6-47c7-9322-acf061949331");
+            //Arrange
+            //old data from db
             Spaceship spaceship = new Spaceship();
-            
+
+            //new data
             SpaceshipDto dto = MockSpaceshipData();
 
             spaceship.Id = Guid.Parse("0946d4c2-f3d6-47c7-9322-acf061949331");
@@ -97,18 +99,52 @@ namespace Shop.SpaceshipTest
             spaceship.Type = "asdasd";
             spaceship.Passengers = 123123;
             spaceship.EnginePower = 987654;
-            spaceship.Crew = 567;
+            spaceship.Crew = 123;
             spaceship.Company = "Company asd";
             spaceship.CargoWeight = 567;
             spaceship.CreatedAt = DateTime.Now.AddYears(1);
             spaceship.ModifiedAt = DateTime.Now.AddYears(1);
 
+            //Act
             await Svc<ISpaceshipServices>().Update(dto);
 
+            //Assert
             Assert.Equal(spaceship.Id, guid);
-            Assert.NotEqual(spaceship.Name, dto.Name);
+            Assert.NotEqual(spaceship.EnginePower, dto.EnginePower);
             Assert.Equal(spaceship.Crew, dto.Crew);
             Assert.DoesNotMatch(spaceship.Passengers.ToString(), dto.Passengers.ToString());
+        }
+
+        [Fact]
+        public async Task Should_UpdateSpaceship_WhenUpdateDataVersion2()
+        {
+            SpaceshipDto dto = MockSpaceshipData();
+            var createSpaceship = await Svc<ISpaceshipServices>().Create(dto);
+
+            SpaceshipDto update = MockUpdateSpaceshipData();
+            var updateSpaceship = await Svc<ISpaceshipServices>().Update(update);
+
+            ///error korda teha
+            Assert.DoesNotMatch(updateSpaceship.Name, createSpaceship.Name);
+            Assert.NotEqual(updateSpaceship.EnginePower, createSpaceship.EnginePower);
+            Assert.Equal(updateSpaceship.Crew, createSpaceship.Crew);
+            Assert.DoesNotMatch(updateSpaceship.Passengers.ToString(), createSpaceship.Passengers.ToString());
+        }
+
+        private SpaceshipDto MockUpdateSpaceshipData()
+        {
+            return new SpaceshipDto()
+            {
+                Name = "asd123",
+                Type = "asd",
+                Passengers = 123456,
+                EnginePower = 123456,
+                Crew = 123456,
+                Company = "asdasdasd",
+                CargoWeight = 123456,
+                CreatedAt = DateTime.Now,
+                ModifiedAt = DateTime.Now,
+            };
         }
 
         private SpaceshipDto MockSpaceshipData()
@@ -122,7 +158,9 @@ namespace Shop.SpaceshipTest
                 EnginePower = 123,
                 Crew = 123,
                 Company = "Company",
-                CargoWeight = 123
+                CargoWeight = 123,
+                CreatedAt = DateTime.Now,
+                ModifiedAt = DateTime.Now,
             };
         }
     }
