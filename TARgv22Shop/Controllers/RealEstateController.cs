@@ -17,9 +17,9 @@ namespace TARgv22Shop.Controllers
 
         public RealEstateController(ShopContext context, IRealEstateServices realEstateServices, IFileServices fileServices)
         {
-            this._context = context;
-            this._realEstateServices = realEstateServices;
-            this._fileServices = fileServices;
+            _context = context;
+            _realEstateServices = realEstateServices;
+            _fileServices = fileServices;
         }
 
         public IActionResult Index()
@@ -272,7 +272,7 @@ namespace TARgv22Shop.Controllers
 
                 var image = await _fileServices.RemoveImageFromDatabase(dto);
             }
-            
+
             return RedirectToAction(nameof(Index));
         }
     }

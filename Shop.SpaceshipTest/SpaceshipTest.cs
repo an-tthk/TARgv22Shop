@@ -146,7 +146,7 @@ namespace Shop.SpaceshipTest
 
         private SpaceshipDto MockNullSpaceship()
         {
-            SpaceshipDto nullDto = new()
+            return new SpaceshipDto()
             {
                 Id = null,
                 Name = "Name123",
@@ -159,8 +159,6 @@ namespace Shop.SpaceshipTest
                 CreatedAt = DateTime.Now.AddYears(1),
                 ModifiedAt = DateTime.Now.AddYears(1),
             };
-
-            return nullDto;
         }
 
         private SpaceshipDto MockUpdateSpaceshipData()

@@ -13,8 +13,8 @@ namespace TARgv22Shop.Controllers
 
         public KindergartenController(ShopContext context, IKindergartenServices kindergartenServices)
         {
-            this._context = context;
-            this._kindergartenServices = kindergartenServices;
+            _context = context;
+            _kindergartenServices = kindergartenServices;
         }
 
         public IActionResult Index()

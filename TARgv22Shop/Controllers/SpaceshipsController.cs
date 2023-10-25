@@ -17,9 +17,9 @@ namespace TARgv22Shop.Controllers
 
         public SpaceshipsController(ShopContext context, ISpaceshipServices spaceshipServices, IFileServices fileServices)
         {
-            this._context = context;
-            this._spaceshipServices = spaceshipServices;
-            this._fileServices = fileServices;
+            _context = context;
+            _spaceshipServices = spaceshipServices;
+            _fileServices = fileServices;
         }
 
         public IActionResult Index()
