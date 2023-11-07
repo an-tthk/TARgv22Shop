@@ -9,5 +9,8 @@ namespace Shop.Core.Dto.OpenWeatherDtos
 
         [JsonPropertyName("deg")]
         public int Deg { get; set; }
+
+        [JsonPropertyName("gust")]
+        public double Gust { get; set; }
     }
 }

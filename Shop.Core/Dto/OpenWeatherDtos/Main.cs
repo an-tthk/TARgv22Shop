@@ -21,5 +21,11 @@ namespace Shop.Core.Dto.OpenWeatherDtos
 
         [JsonPropertyName("humidity")]
         public int Humidity { get; set; }
+
+        [JsonPropertyName("sea_level")]
+        public int SeaLevel { get; set; }
+
+        [JsonPropertyName("grnd_level")]
+        public int GrndLevel { get; set; }
     }
 }
