@@ -6,6 +6,7 @@ namespace Shop.Core.Dto.OpenWeatherDtos
     {
         [JsonPropertyName("lon")]
         public double Lon { get; set; }
+        
         [JsonPropertyName("lat")]
         public double Lat { get; set; }
     }

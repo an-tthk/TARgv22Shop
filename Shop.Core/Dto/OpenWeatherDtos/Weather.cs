@@ -8,7 +8,7 @@ namespace Shop.Core.Dto.OpenWeatherDtos
         public int Id { get; set; }
         
         [JsonPropertyName("main")]
-        public Main Main { get; set; }
+        public string Main { get; set; }
         
         [JsonPropertyName("description")]
         public string Description { get; set; }
