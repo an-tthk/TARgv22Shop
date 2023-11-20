@@ -1,6 +1,6 @@
-﻿namespace Shop.Core.Dto.OpenWeatherDtos
+﻿namespace TARgv22Shop.Models.OpenWeathers
 {
-    public class OpenWeatherResultDto
+    public class OpenWeatherViewModel
     {
         public string City { get; set; }
 
