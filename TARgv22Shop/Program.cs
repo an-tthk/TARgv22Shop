@@ -19,6 +19,7 @@ builder.Services.AddScoped<IKindergartenServices, KindergartenServices>();
 builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
 builder.Services.AddScoped<IChuckNorrisServices, ChuckNorrisServices>();
 builder.Services.AddScoped<ICocktailServices, CocktailServices>();
+builder.Services.AddScoped<IAccuWeatherForecastServices, AccuWeatherForecastServices>();
 
 var app = builder.Build();
 
