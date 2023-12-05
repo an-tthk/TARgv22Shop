@@ -36,10 +36,10 @@ namespace TARgv22Shop.Controllers
                 };
 
                 _emailServices.SendEmail(dto);
-                return View(nameof(Index));
+                return View(model);
             }
 
-            return View(model);
+            return View(nameof(Index));
         }
     }
 }
