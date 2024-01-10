@@ -6,6 +6,7 @@ using Shop.ApplicationServices.Services;
 using Shop.Core.ServiceInterface;
 using Shop.Data;
 using Microsoft.AspNetCore.Identity;
+using Shop.Core.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,18 @@ builder.Services.AddScoped<IChuckNorrisServices, ChuckNorrisServices>();
 builder.Services.AddScoped<ICocktailServices, CocktailServices>();
 builder.Services.AddScoped<IAccuWeatherForecastServices, AccuWeatherForecastServices>();
 builder.Services.AddScoped<IEmailServices, EmailServices>();
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequiredLength = 3;
+    options.Lockout.MaxFailedAccessAttempts = 2;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+})
+    .AddEntityFrameworkStores<ShopContext>()
+    .AddDefaultTokenProviders()
+    .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>("CustomEmailConfirmation")
+    .AddDefaultUI();
 
 var app = builder.Build();
 
