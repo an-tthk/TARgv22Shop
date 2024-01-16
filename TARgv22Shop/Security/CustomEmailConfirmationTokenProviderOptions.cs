@@ -2,7 +2,7 @@
 
 namespace TARgv22Shop.Security
 {
-    public class CustomEmailConfirmationTokenProviderOptions : DataProtectionTokenProviderOption
+    public class CustomEmailConfirmationTokenProviderOptions : DataProtectionTokenProviderOptions
     {
     }
 }
