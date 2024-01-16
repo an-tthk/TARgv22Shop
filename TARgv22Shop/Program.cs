@@ -18,8 +18,8 @@ builder.Services.AddSignalR();
 builder.Services.AddDbContext<ShopContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
-    .AddEntityFrameworkStores<ShopContext>();
+//builder.Services.AddDefaultIdentity<IdentityUser>()
+//    .AddEntityFrameworkStores<ShopContext>();
 
 builder.Services.AddScoped<ISpaceshipServices, SpaceshipServices>();
 builder.Services.AddScoped<IFileServices, FilesServices>();
@@ -30,6 +30,7 @@ builder.Services.AddScoped<IChuckNorrisServices, ChuckNorrisServices>();
 builder.Services.AddScoped<ICocktailServices, CocktailServices>();
 builder.Services.AddScoped<IAccuWeatherForecastServices, AccuWeatherForecastServices>();
 builder.Services.AddScoped<IEmailServices, EmailServices>();
+builder.Services.AddRazorPages();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -51,7 +52,7 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(o =>
 
 //email tokens confirmation
 builder.Services.Configure<CustomEmailConfirmationTokenProviderOptions>(o =>
-o.TokenLifespan = TimeSpan.FromDays(3));
+    o.TokenLifespan = TimeSpan.FromDays(3));
 
 var app = builder.Build();
 
