@@ -174,7 +174,7 @@ namespace TARgv22Shop.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
-            returnUrl = returnUrl ?? Url.Action("~/");
+            returnUrl = returnUrl ?? Url.Content("~/");
 
             LoginViewModel loginViewModel = new LoginViewModel
             {
