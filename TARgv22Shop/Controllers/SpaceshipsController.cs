@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic.FileIO;
-using Shop.ApplicationServices.Services;
 using Shop.Core.Dto;
 using Shop.Core.ServiceInterface;
 using Shop.Data;
@@ -9,6 +8,7 @@ using TARgv22Shop.Models.Spaceship;
 
 namespace TARgv22Shop.Controllers
 {
+    [Authorize]
     public class SpaceshipsController : Controller
     {
         private readonly ShopContext _context;

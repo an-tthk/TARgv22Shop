@@ -5,6 +5,9 @@ using TARgv22Shop.Hubs;
 using Shop.ApplicationServices.Services;
 using Shop.Core.ServiceInterface;
 using Shop.Data;
+using Microsoft.AspNetCore.Identity;
+using Shop.Core.Domain;
+using TARgv22Shop.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +16,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<ShopContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalConnection")));
 
 builder.Services.AddScoped<ISpaceshipServices, SpaceshipServices>();
 builder.Services.AddScoped<IFileServices, FilesServices>();
@@ -24,6 +27,36 @@ builder.Services.AddScoped<IChuckNorrisServices, ChuckNorrisServices>();
 builder.Services.AddScoped<ICocktailServices, CocktailServices>();
 builder.Services.AddScoped<IAccuWeatherForecastServices, AccuWeatherForecastServices>();
 builder.Services.AddScoped<IEmailServices, EmailServices>();
+builder.Services.AddRazorPages();
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequiredLength = 3;
+
+    options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
+    options.Lockout.MaxFailedAccessAttempts = 2;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+})
+    .AddEntityFrameworkStores<ShopContext>()
+    .AddDefaultTokenProviders()
+    .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>("CustomEmailConfirmation")
+    .AddDefaultUI();
+
+//all tokens
+builder.Services.Configure<DataProtectionTokenProviderOptions>(o =>
+    o.TokenLifespan = TimeSpan.FromHours(5));
+
+//email tokens confirmation
+builder.Services.Configure<CustomEmailConfirmationTokenProviderOptions>(o =>
+    o.TokenLifespan = TimeSpan.FromDays(3));
+
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
+    {
+        options.ClientId = "263729488327-jbh9pnlpvph8lrs16nosgu4g137o2gdd.apps.googleusercontent.com";
+        options.ClientSecret = "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";
+    });
 
 var app = builder.Build();
 
@@ -46,8 +79,11 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseRouting();
+app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
